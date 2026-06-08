@@ -1,0 +1,5 @@
+# --- Dependencias ---
+/vendor/
+
+# --- Carpetas de configuración ---
+/config/
