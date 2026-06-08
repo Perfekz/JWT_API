@@ -31,12 +31,12 @@ Contienen la información específica de negocio necesaria para la sesión:
 Lo que estás viendo en Postman bajo la opción x-www-form-urlencoded es el formato que el cliente (en este caso Postman) utiliza para enviar los datos al servidor.
 Es el formato estándar que utilizan los formularios HTML tradicionales cuando envías un <form>. Imagínatelo como una cadena de texto larga donde los campos se concatenan con símbolos:
 
---> Cómo lo ve Postman: Una lista ordenada de "Key" (usuario) y "Value" (admin).
---> Cómo viaja realmente por internet (el "cable"): usuario=admin&clave=12345678
+*** Cómo lo ve Postman: Una lista ordenada de "Key" (usuario) y "Value" (admin).
+*** Cómo viaja realmente por internet (el "cable"): usuario=admin&clave=12345678
 
 El servidor recibe esta cadena, la interpreta y, gracias a PHP, automáticamente la convierte en un arreglo asociativo que tú puedes leer fácilmente en tu código así: $_POST['usuario'] y $_POST['clave'].
 
-2. ¿Por qué es el mejor formato para tu Login?
+2. ¿Por qué es el mejor formato para su Login?
 Para un inicio de sesión, es el formato más simple y compatible porque:
 - Es ligero: No requiere la sobrecarga de un formato más complejo como JSON.
 - Compatibilidad: Cualquier servidor PHP lo entiende de forma nativa sin necesidad de configuraciones adicionales.
