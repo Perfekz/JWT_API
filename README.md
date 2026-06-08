@@ -111,3 +111,11 @@ o	Este es el "Plan de Emergencia". Si estás en un servidor Apache y por alguna 
 ### 5. Resumen pedagógico:
 
 "Al seleccionar x-www-form-urlencoded, estamos hablando el idioma de los formularios web clásicos. Estamos enviando los datos como una lista de etiquetas (usuario, clave) que el servidor PHP sabe leer directamente en su variable global $_POST."
+
+## 👨‍🏫 Autor
+
+**Irina Fong**  
+Docente de Programación  
+Universidad Tecnológica de Panamá  
+
+🌐 **GitHub:**(https://github.com/Salomon2514)  
