@@ -34,10 +34,11 @@ Los Códigos de Estado más importantes <br>
 
 <img width="1000" height="291" alt="image" src="https://github.com/user-attachments/assets/b9ea3654-63dd-401a-b9e0-029d21f31421" />
 Respuesta del Servidor
-<br>
+<br><br>
 ### Recursos
 Paso 1: 
 Abre la terminal o consola de comandos, navega hasta la carpeta raíz donde tienes tus archivos de PHP puro (donde planeas poner tu seguridad.php y products.php) y ejecuta:
+<br>
 ```bash
 composer init
 ```
