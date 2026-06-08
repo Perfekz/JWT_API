@@ -23,7 +23,7 @@ DELETE (Eliminación): Solicitas borrar un recurso.<br>
 Cuando el servidor (tu API REST) responde a una petición, utiliza los Códigos de Estado HTTP. <br>
 Estos códigos son el lenguaje con el que tu API le dice al cliente (Postman o el Frontend) si todo salió bien o si hubo un problema.
 
-Los Códigos de Estado más importantes
+Los Códigos de Estado más importantes <br>
 200 OK: La petición fue exitosa. (Ejemplo: Al listar productos o hacer login).<br>
 201 Created: Se creó un recurso correctamente. (Ejemplo: Al registrar un usuario nuevo).<br>
 400 Bad Request: El servidor no entiende la petición porque faltan datos o están mal formados.<br>
