@@ -41,14 +41,14 @@ Para un inicio de sesión, es el formato más simple y compatible porque:
 - Es ligero: No requiere la sobrecarga de un formato más complejo como JSON.
 - Compatibilidad: Cualquier servidor PHP lo entiende de forma nativa sin necesidad de configuraciones adicionales.
 
-### 3.El proceso paso a paso: ¿Cómo se obtiene el token?
+### 3. El proceso paso a paso: ¿Cómo se obtiene el token?
 El flujo que implementaste es el correcto para una API moderna:
 1.	Credenciales: El cliente envía el usuario y la contraseña por POST (como se ve en tu captura de Postman).
 2.	Verificación: Tu archivo login.php consulta la base de datos (o la simulación que tienes) para verificar si esas credenciales son correctas.
 3.	Firma (Encoding): Si todo está bien, la librería de Firebase JWT::encode toma ese payload, lo combina con tu clave_secreta y lo "empaqueta" en una cadena de texto base64.
 4.	Respuesta: El servidor devuelve ese Token al cliente.
 
-### Encabezados HTTP Authorization
+### 4. Encabezados HTTP Authorization
 Cuando desarrollas APIs, el mayor dolor de cabeza es que cada servidor web (Apache, Nginx, IIS) y cada configuración de PHP maneja los encabezados HTTP de forma ligeramente distinta.
 ¿Qué estamos buscando?
 El cliente envía su token en un encabezado llamado Authorization. El estándar es que luzca así: Authorization: Bearer <tu_token_aqui>.
@@ -60,7 +60,8 @@ o	Este es el caso más común. La mayoría de las veces, cuando Apache o Nginx r
 3.	apache_request_headers():
 o	Este es el "Plan de Emergencia". Si estás en un servidor Apache y por alguna razón de configuración (como ejecutar PHP en modo CGI o FastCGI) las variables anteriores no se llenaron, esta función le pregunta directamente a Apache: "Oye, ¿qué encabezados llegaron en esta petición?". Es la forma más infalible de obtener el dato en entornos Apache.
 
+<img width="1518" height="808" alt="image" src="https://github.com/user-attachments/assets/86a2aeea-cd5b-46ad-8f5b-a49411702d94" />
 
-## Resumen pedagógico:
+### 5. Resumen pedagógico:
 
 "Al seleccionar x-www-form-urlencoded, estamos hablando el idioma de los formularios web clásicos. Estamos enviando los datos como una lista de etiquetas (usuario, clave) que el servidor PHP sabe leer directamente en su variable global $_POST."
