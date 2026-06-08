@@ -19,7 +19,18 @@ DELETE (Eliminación): Solicitas borrar un recurso.<br>
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
 ![API REST](https://img.shields.io/badge/API_REST-005571?style=for-the-badge&logo=openapi&logoColor=white)
 
+## Códigos de Estados HTTP
+Cuando el servidor (tu API REST) responde a una petición, utiliza los Códigos de Estado HTTP. <br>
+Estos códigos son el lenguaje con el que tu API le dice al cliente (Postman o el Frontend) si todo salió bien o si hubo un problema.
 
+Los Códigos de Estado más importantes
+200 OK: La petición fue exitosa. (Ejemplo: Al listar productos o hacer login).<br>
+201 Created: Se creó un recurso correctamente. (Ejemplo: Al registrar un usuario nuevo).<br>
+400 Bad Request: El servidor no entiende la petición porque faltan datos o están mal formados.<br>
+401 Unauthorized: El usuario no está logueado o el token es inválido/expirado.<br>
+403 Forbidden: El usuario está logueado, pero no tiene permiso para esa acción.<br>
+404 Not Found: Recurso no encontrado. El cliente busca una URL que no existe o un registro que no está en la base de datos (ej. buscar producto/999 cuando solo hay 10 productos).<br>
+500 Internal Server Error: Ocurrió un error en el servidor (un error de código PHP, conexión a base de datos caída, etc.).<br>
 
 ### Recursos
 Paso 1: 
