@@ -17,11 +17,11 @@ $pdo = new PDO(
 );
 
 $auth = new AuthService();
-$hash = $auth->hashPassword('admin123'); // password_hash()
+$hash = $auth->hashPassword('houzheng67'); // password_hash() al cambiar los valores de la contraseña hay que volver a abrir register.php para que se vuelva a hashear y actualizar en la base de datos, si no se hace esto no se podrá loguear con la nueva contraseña.
 
 $stmt = $pdo->prepare("INSERT INTO usuarios (username, password) VALUES (?, ?)
                         ON DUPLICATE KEY UPDATE password = VALUES(password)");
-$stmt->execute(['admin', $hash]);
+$stmt->execute(['houzheng', $hash]); // Inserta o actualiza el usuario "houzheng" con la contraseña hasheada
 
 header('Content-Type: application/json');
-echo json_encode(['mensaje' => 'Usuario admin creado con contraseña hasheada (BCRYPT) ✅']);
+echo json_encode(['mensaje' => 'Usuario houzheng creado con contraseña hasheada (BCRYPT) ✅']);
