@@ -1,4 +1,5 @@
 # --- Dependencias ---
+.env
 /vendor/
 
 # --- Carpetas de configuración ---
