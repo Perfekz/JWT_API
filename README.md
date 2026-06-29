@@ -72,55 +72,70 @@ Contienen la información específica de negocio necesaria para la sesión:
  - usuario: Nombre de usuario (ej. admin).
  - rol: Perfil de acceso (ej. profesor).
 
- ## Postman
- 
- <img width="1522" height="761" alt="image" src="https://github.com/user-attachments/assets/adc0fed3-360b-4e00-aa19-35b697d07c50" />
+### Uso en Postman
 
+#### 1. Login con `login.php`
+- Método: `POST`
+- URL: `http://localhost/path/to/login.php`
+- Body puede ser:
+  - `x-www-form-urlencoded` con `usuario` y `clave`
+  - o `raw` JSON con `Content-Type: application/json`
 
+Ejemplo JSON:
+```json
+{
+  "usuario": "houzheng",
+  "clave": "houzheng67"
+}
+```
 
-### 1. ¿Qué es x-www-form-urlencoded?
-Lo que estás viendo en Postman bajo la opción x-www-form-urlencoded es el formato que el cliente (en este caso Postman) utiliza para enviar los datos al servidor.
-Es el formato estándar que utilizan los formularios HTML tradicionales cuando envías un <form>. Imagínatelo como una cadena de texto larga donde los campos se concatenan con símbolos:
+La respuesta debe regresar el token:
+```json
+{
+  "token": "<jwt>",
+  "expira_en": "3600 segundos"
+}
+```
 
- - Cómo lo ve Postman: Una lista ordenada de "Key" (usuario) y "Value" (admin).
- - Cómo viaja realmente por internet (el "cable"): usuario=admin&clave=12345678
+#### 2. Acceder a `api/products.php`
+- Método: `GET`, `POST`, `PUT` o `DELETE`
+- URL: `http://localhost/path/to/api/products.php`
+- Header obligatorio:
+  - `Authorization: Bearer <token>`
+  - `Content-Type: application/json` (para `POST`/`PUT`)
 
-El servidor recibe esta cadena, la interpreta y, gracias a PHP, automáticamente la convierte en un arreglo asociativo que tú puedes leer fácilmente en tu código así: $_POST['usuario'] y $_POST['clave'].
+Para `GET` y `DELETE` puedes usar `?id=1` en la URL.
+Para `POST` y `PUT` envía JSON en el cuerpo.
 
-### 2. ¿Por qué es el mejor formato para su Login?
-Para un inicio de sesión, es el formato más simple y compatible porque:
-- Es ligero: No requiere la sobrecarga de un formato más complejo como JSON.
-- Compatibilidad: Cualquier servidor PHP lo entiende de forma nativa sin necesidad de configuraciones adicionales.
+#### 3. Cómo el proyecto procesa los headers
+`seguridad.php` busca el token en:
+- `$_SERVER['Authorization']`
+- `$_SERVER['HTTP_AUTHORIZATION']`
+- `apache_request_headers()`
 
-### 3. El proceso paso a paso: ¿Cómo se obtiene el token?
+Esto asegura que el proyecto funcione en diferentes configuraciones de PHP/Apache.
+
+### 4. ¿Por qué x-www-form-urlencoded se usa en el login?
+Es el formato más compatible con PHP nativo y con formularios HTML.
+Postman lo envía como `usuario=...&clave=...` y PHP lo convierte en `$_POST['usuario']` y `$_POST['clave']`.
+
+### 5. El proceso de obtención del token
 El flujo que implementaste es el correcto para una API moderna:
-1.	Credenciales: El cliente envía el usuario y la contraseña por POST (como se ve en tu captura de Postman).
-2.	Verificación: Tu archivo login.php consulta la base de datos (o la simulación que tienes) para verificar si esas credenciales son correctas.
-3.	Firma (Encoding): Si todo está bien, la librería de Firebase JWT::encode toma ese payload, lo combina con tu clave_secreta y lo "empaqueta" en una cadena de texto base64.
-4.	Respuesta: El servidor devuelve ese Token al cliente.
+1.	Credenciales: El cliente envía el usuario y la contraseña por POST.
+2.	Verificación: `login.php` valida las credenciales contra la base de datos.
+3.	Firma: Firebase JWT convierte el payload en token firmado.
+4.	Respuesta: El servidor devuelve el token al cliente.
 
-### 4. Encabezados HTTP Authorization
-Cuando desarrollas APIs, el mayor dolor de cabeza es que cada servidor web (Apache, Nginx, IIS) y cada configuración de PHP maneja los encabezados HTTP de forma ligeramente distinta.
-¿Qué estamos buscando?
-El cliente envía su token en un encabezado llamado Authorization. El estándar es que luzca así: Authorization: Bearer <tu_token_aqui>.
-El problema es que PHP no siempre pone ese dato en el mismo lugar de la variable global $_SERVER. Este código actúa como un "cazador de tesoros" que busca el token en tres niveles:
-1.	$_SERVER['Authorization']:
-o	Este es el caso ideal. Ocurre cuando PHP corre como un módulo dentro del servidor web (por ejemplo, en configuraciones muy específicas o cuando el servidor hace un esfuerzo por normalizar los datos). Es el acceso más directo.
-2.	$_SERVER['HTTP_AUTHORIZATION']:
-o	Este es el caso más común. La mayoría de las veces, cuando Apache o Nginx reciben un encabezado HTTP llamado Authorization, PHP lo renombra automáticamente agregándole el prefijo HTTP_ y convirtiéndolo a mayúsculas. Si tu código no buscara aquí, tu API simplemente "no vería" el token que el usuario envió.
-3.	apache_request_headers():
-o	Este es el "Plan de Emergencia". Si estás en un servidor Apache y por alguna razón de configuración (como ejecutar PHP en modo CGI o FastCGI) las variables anteriores no se llenaron, esta función le pregunta directamente a Apache: "Oye, ¿qué encabezados llegaron en esta petición?". Es la forma más infalible de obtener el dato en entornos Apache.
+# Autor
 
-<img width="1518" height="808" alt="image" src="https://github.com/user-attachments/assets/86a2aeea-cd5b-46ad-8f5b-a49411702d94" />
+Este proyecto fue desarrollado por los estudiantes de la Universidad Tecnológica de Panamá:
 
-### 5. Resumen pedagógico:
+Nombre: Erick Hou 8-1017-473 y Jessica Zheng 8-1033-370
 
-"Al seleccionar x-www-form-urlencoded, estamos hablando el idioma de los formularios web clásicos. Estamos enviando los datos como una lista de etiquetas (usuario, clave) que el servidor PHP sabe leer directamente en su variable global $_POST."
+Correo: erick.hou@utp.ac.pa y jessica.zheng@utp.ac.pa
 
-## 👨‍🏫 Autor
+Curso: Desarrollo de Software VII
 
-**Irina Fong**  
-Docente de Programación  
-Universidad Tecnológica de Panamá  
+Instructor del Laboratorio: Irina Fong
 
-🌐 **GitHub:**(https://github.com/Salomon2514)  
+Fecha de ejecución: 29/06/2026
