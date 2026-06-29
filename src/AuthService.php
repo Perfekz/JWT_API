@@ -49,6 +49,7 @@ class AuthService implements AuthInterface {
         return password_verify($password, $hash);
     }
 
+    // Función privada para leer variables de entorno desde un archivo .env
     private function leerEnv(string $key): string {
         $archivo = __DIR__ . '/../.env';
         if (!file_exists($archivo)) return '';

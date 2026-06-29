@@ -1,6 +1,7 @@
 <?php
 // Token ya validado en index.php
 
+// Función para leer variables de entorno desde un archivo .env
 function leerEnv(string $key): string {
     foreach (file(__DIR__ . '/../.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $l) {
         [$k, $v] = explode('=', $l, 2);
@@ -9,6 +10,7 @@ function leerEnv(string $key): string {
     return '';
 }
 
+// Conexión a la base de datos
 try {
     $pdo = new PDO(
         "mysql:host=" . leerEnv('DB_HOST') . ";dbname=" . leerEnv('DB_NAME') . ";charset=utf8mb4",
